@@ -73,133 +73,144 @@ switch ($action) {
             $error = 'No product code provided for delete.';
         }
         break;
-
-    case 'list':
-    default:
-        break;
 }
 
 // Always get the current product list
 $products = get_products();
 
-// Include shared header
-include __DIR__ . '/../../header.php';
+// ✅ Correct includes (header/footer live in /views)
+include __DIR__ . '/../header.php';
 ?>
 
-<h2>Product Manager</h2>
-<p><a href="/PHPAssignment2/index.php">Back to Home</a></p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Product Manager</h2>
+    <a href="/PHPAssignment2/index.php" class="btn btn-outline-secondary btn-sm">
+        &larr; Back to Home
+    </a>
+</div>
 
 <?php if ($error): ?>
-    <p style="color: red;"><?php echo htmlspecialchars($error); ?></p>
+    <div class="alert alert-danger">
+        <?= htmlspecialchars($error) ?>
+    </div>
 <?php endif; ?>
 
-<h3>Product List</h3>
-<table border="1" cellspacing="0" cellpadding="6">
-    <thead>
-        <tr>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Version</th>
-            <th>Release Date</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php if ($products): ?>
-        <?php foreach ($products as $product): ?>
-            <tr>
-                <td><?php echo htmlspecialchars($product['productCode']); ?></td>
-                <td><?php echo htmlspecialchars($product['name']); ?></td>
-                <td><?php echo htmlspecialchars($product['version']); ?></td>
-                <td><?php echo htmlspecialchars($product['releaseDate']); ?></td>
-                <td>
-                    <a href="product_manager.php?action=show_edit&productCode=<?php
-                        echo urlencode($product['productCode']);
-                    ?>">Edit</a>
-                </td>
-                <td>
-                    <form action="product_manager.php" method="post" style="display:inline;">
-                        <input type="hidden" name="action" value="delete_product">
-                        <input type="hidden" name="productCode"
-                               value="<?php echo htmlspecialchars($product['productCode']); ?>">
-                        <button type="submit" onclick="return confirm('Delete this product?');">
-                            Delete
-                        </button>
-                    </form>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <tr><td colspan="6">No products found.</td></tr>
-    <?php endif; ?>
-    </tbody>
-</table>
+<div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white fw-semibold">
+        Product List
+    </div>
 
-<hr>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover mb-0 align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Version</th>
+                    <th>Release Date</th>
+                    <th class="text-center">Edit</th>
+                    <th class="text-center">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php if ($products): ?>
+                <?php foreach ($products as $product): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($product['productCode']) ?></td>
+                        <td><?= htmlspecialchars($product['name']) ?></td>
+                        <td><?= htmlspecialchars($product['version']) ?></td>
+                        <td><?= htmlspecialchars($product['releaseDate']) ?></td>
+                        <td class="text-center">
+                            <a
+                                class="btn btn-sm btn-outline-primary"
+                                href="product_manager.php?action=show_edit&productCode=<?= urlencode($product['productCode']) ?>">
+                                Edit
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <form action="product_manager.php" method="post" class="d-inline">
+                                <input type="hidden" name="action" value="delete_product">
+                                <input type="hidden" name="productCode"
+                                       value="<?= htmlspecialchars($product['productCode']) ?>">
+                                <button
+                                    type="submit"
+                                    class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Delete this product?');">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="6" class="text-center py-3">
+                        No products found.
+                    </td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-<?php if ($edit_product): ?>
-    <h3>Edit Product</h3>
-    <form action="product_manager.php" method="post">
-        <input type="hidden" name="action" value="update_product">
+<div class="card shadow-sm">
+    <div class="card-header bg-secondary text-white fw-semibold">
+        <?= $edit_product ? 'Edit Product' : 'Add Product' ?>
+    </div>
 
-        <label>
-            Product Code:
-            <input type="text" name="productCode"
-                   value="<?php echo htmlspecialchars($edit_product['productCode']); ?>"
-                   readonly>
-        </label><br>
+    <div class="card-body">
+        <form action="product_manager.php" method="post" class="row g-3">
+            <input type="hidden" name="action"
+                   value="<?= $edit_product ? 'update_product' : 'add_product' ?>">
 
-        <label>
-            Name:
-            <input type="text" name="name"
-                   value="<?php echo htmlspecialchars($edit_product['name']); ?>" required>
-        </label><br>
+            <?php if ($edit_product): ?>
+                <div class="col-md-3">
+                    <label class="form-label">Product Code</label>
+                    <input type="text" class="form-control"
+                           name="productCode"
+                           value="<?= htmlspecialchars($edit_product['productCode']) ?>"
+                           readonly>
+                </div>
+            <?php else: ?>
+                <div class="col-md-3">
+                    <label class="form-label">Product Code</label>
+                    <input type="text" class="form-control" name="productCode" required>
+                </div>
+            <?php endif; ?>
 
-        <label>
-            Version:
-            <input type="text" name="version"
-                   value="<?php echo htmlspecialchars($edit_product['version']); ?>" required>
-        </label><br>
+            <div class="col-md-5">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" name="name"
+                       value="<?= $edit_product['name'] ?? '' ?>" required>
+            </div>
 
-        <label>
-            Release Date:
-            <input type="date" name="releaseDate"
-                   value="<?php echo htmlspecialchars($edit_product['releaseDate']); ?>" required>
-        </label><br><br>
+            <div class="col-md-2">
+                <label class="form-label">Version</label>
+                <input type="text" class="form-control" name="version"
+                       value="<?= $edit_product['version'] ?? '' ?>" required>
+            </div>
 
-        <button type="submit">Update Product</button>
-    </form>
-<?php else: ?>
-    <h3>Add Product</h3>
-    <form action="product_manager.php" method="post">
-        <input type="hidden" name="action" value="add_product">
+            <div class="col-md-2">
+                <label class="form-label">Release Date</label>
+                <input type="date" class="form-control" name="releaseDate"
+                       value="<?= $edit_product['releaseDate'] ?? '' ?>" required>
+            </div>
 
-        <label>
-            Product Code:
-            <input type="text" name="productCode" required>
-        </label><br>
+            <div class="col-12 d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">
+                    <?= $edit_product ? 'Update Product' : 'Add Product' ?>
+                </button>
 
-        <label>
-            Name:
-            <input type="text" name="name" required>
-        </label><br>
-
-        <label>
-            Version:
-            <input type="text" name="version" required>
-        </label><br>
-
-        <label>
-            Release Date:
-            <input type="date" name="releaseDate" required>
-        </label><br><br>
-
-        <button type="submit">Add Product</button>
-    </form>
-<?php endif; ?>
+                <?php if ($edit_product): ?>
+                    <a href="product_manager.php" class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                <?php endif; ?>
+            </div>
+        </form>
+    </div>
+</div>
 
 <?php
-// Include shared footer
-include __DIR__ . '/../../footer.php';
-?>
+include __DIR__ . '/../footer.php';

@@ -2,9 +2,19 @@
 include __DIR__ . '/../../header.php';
 ?>
 
-<h2>Manage Customers</h2>
-<p>This page will let an admin search, view, and update customers.</p>
-<p><a href="/PHPAssignment2/index.php">Back to Home</a></p>
+<div class="card shadow-sm">
+    <div class="card-header">
+        Manage Customers
+    </div>
+    <div class="card-body">
+        <p class="mb-3">
+            This page will allow administrators to view and manage customers.
+        </p>
+        <a href="/PHPAssignment2/index.php" class="btn btn-outline-secondary btn-sm">
+            Back to Home
+        </a>
+    </div>
+</div>
 
 <?php
 include __DIR__ . '/../../footer.php';

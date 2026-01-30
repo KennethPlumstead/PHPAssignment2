@@ -1,6 +1,3 @@
-<?php
-// header.php
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,19 +5,30 @@
     <title>SportsPro Technical Support</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS (CDN) -->
+    <!-- Bootstrap 5 -->
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-        crossorigin="anonymous"
-    >
+        rel="stylesheet">
 </head>
-<body>
-    <header class="bg-dark text-white py-3 mb-4">
-        <div class="container">
-            <h1 class="h3 mb-0">SportsPro Technical Support</h1>
-        </div>
-    </header>
 
-    <main class="container my-4">
+<body class="bg-light d-flex flex-column min-vh-100">
+
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <div class="container">
+        <span class="navbar-brand mb-0 h1">
+            SportsPro Technical Support
+        </span>
+
+        <!-- Home link (kept intentionally) -->
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/PHPAssignment2/index.php">
+                    Home
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Main content container -->
+<div class="container mt-4 flex-grow-1">

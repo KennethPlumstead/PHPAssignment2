@@ -2,9 +2,19 @@
 include __DIR__ . '/../../header.php';
 ?>
 
-<h2>Technician Incidents</h2>
-<p>This page will let a technician view and update their assigned incidents. (Under construction.)</p>
-<p><a href="/PHPAssignment2/index.php">Back to Home</a></p>
+<div class="card shadow-sm">
+    <div class="card-header">
+        Technician Incidents
+    </div>
+    <div class="card-body">
+        <p class="mb-3">
+            This page will allow technicians to view and update their assigned incidents.
+        </p>
+        <a href="/PHPAssignment2/index.php" class="btn btn-outline-secondary btn-sm">
+            Back to Home
+        </a>
+    </div>
+</div>
 
 <?php
 include __DIR__ . '/../../footer.php';
